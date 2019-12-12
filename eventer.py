@@ -5,6 +5,14 @@ import time
 import sqlite3
 
 
+def create_new():
+    pass
+
+
+def show_events():
+    pass
+
+
 root = Tk()
 root.geometry("{}x{}".format(500, 500))
 root.title("Eventer")
@@ -27,5 +35,12 @@ lbl3 = Label(root, text="Date:", anchor=E)
 lbl3.place(rely = 0.5, relx=0.05, relwidth=0.25, relheight=0.08)
 ent3 = Entry(root)
 ent3.place(rely = 0.5, relx=0.3, relwidth=0.65, relheight=0.08)
+
+# Buttons
+btn = Button(root, text="Add", command=create_new)
+btn.place(relx=0.1, rely=0.7, relheight=0.1, relwidth=0.8)
+
+show_btn = Button(root, text="Show Upcoming Events", command=show_events)
+show_btn.place(relx=0.1, rely=0.8, relheight=0.1, relwidth=0.8)
 
 root.mainloop()
