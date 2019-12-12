@@ -6,11 +6,44 @@ import sqlite3
 
 
 def create_new():
-    pass
+    nameV = ent1.get()
+    descriptionV = ent2.get()
+    dateV = ent3.get()
+
+    if nameV == "" or descriptionV == "" or dateV == "":
+        messagebox.showerror("Error", "No Empty Entry")
+    else:
+        conn = sqlite3.connect("events.db")
+        c = conn.cursor()
+        c.execute("CREATE TABLE IF NOT EXISTS events(name TEXT, description TEXT, date TEXT)")
+        insert_txt = "INSERT INTO events(name, description, date) VALUES(?, ?, ?);"
+        insert_data = (nameV, descriptionV, dateV)
+
+        c.execute(insert_txt, insert_data)
+        conn.commit()
+        c.close()
+        conn.close()
+        ent1.delete(0, END)
+        ent2.delete(0, END)
+        ent3.delete(0, END)
 
 
-def show_events():
-    pass
+def show_events(): # TODO change to showing by least closest date
+    top = Toplevel()
+    top.title("Upcomming Events")
+    top.geometry("{}x{}".format(300, 300))
+    conn = sqlite3.connect("events.db")
+    c = conn.cursor()
+    getting_txt = "SELECT * FROM events"
+    c.execute(getting_txt)
+    data = c.fetchall()
+    cur = time.strftime("%d/%m/%Y")
+    for row in data:
+        name, descr, date = row[0], row[1], row[2]
+        d1 = datetime.strptime(cur, "%d/%m/%Y")
+        d2 = datetime.strptime(date, "%d/%m/%Y")
+        lbl_text = str(abs((d2 - d1).days)) + " days left: " + name + ":\n" + descr
+        Label(top, text=lbl_text).pack()
 
 
 root = Tk()
